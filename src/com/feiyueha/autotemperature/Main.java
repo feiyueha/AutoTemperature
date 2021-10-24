@@ -19,21 +19,21 @@ import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.utils.BotConfiguration;
 
-public class Main {                         //»òÕßÉí·İÖ¤ÎÄ¼şµØÖ·£¬Ñ§Ğ£id£¬Äê¼Íid£¬°à¼¶id£¨°´ÕÕÕâÖÖĞ´·¨ÔòÄ¬ÈÏ²»Í¨¹ıQQÌáĞÑ£©
-	public static void main(String args[]) {//Éí·İÖ¤ÁĞ±íÎÄ¼şµØÖ·£¬Ñ§Ğ£id£¬Äê¼Íid£¬°à¼¶id, QQ, QQÃÜÂë, ½ÓÊÕÏûÏ¢µÄÈËµÄQQºÅ£¨ĞèÒª¼ÓºÃÓÑ£©
+public class Main {                         //æˆ–è€…èº«ä»½è¯æ–‡ä»¶åœ°å€ï¼Œå­¦æ ¡idï¼Œå¹´çº§idï¼Œç­çº§idï¼ˆæŒ‰ç…§è¿™ç§å†™æ³•åˆ™é»˜è®¤ä¸é€šè¿‡QQæé†’ï¼‰
+	public static void main(String args[]) {//èº«ä»½è¯åˆ—è¡¨æ–‡ä»¶åœ°å€ï¼Œå­¦æ ¡idï¼Œå¹´çº§idï¼Œç­çº§id, QQ, QQå¯†ç , æ¥æ”¶æ¶ˆæ¯çš„äººçš„QQå·ï¼ˆéœ€è¦åŠ å¥½å‹ï¼‰
 		boolean mirai = false;
 		if(args.length != 7 && args.length != 4) {
 
-			System.out.println("Éí·İÖ¤ÁĞ±íÎÄ¼şµØÖ·£¬Ñ§Ğ£id£¬Äê¼Íid£¬°à¼¶id, [QQ], [QQÃÜÂë],[½ÓÊÕÏûÏ¢µÄÈËµÄQQºÅ£¨ĞèÒª¼ÓºÃÓÑ)]");
+			System.out.println("èº«ä»½è¯åˆ—è¡¨æ–‡ä»¶åœ°å€ï¼Œå­¦æ ¡idï¼Œå¹´çº§idï¼Œç­çº§id, [QQ], [QQå¯†ç ],[æ¥æ”¶æ¶ˆæ¯çš„äººçš„QQå·ï¼ˆéœ€è¦åŠ å¥½å‹)]");
 			System.exit(404);
 		}
 		if(args.length == 7){
 			mirai = true;
 		}
-		int success = 0, ignore = 0, fail = 0;// ±¾´ÎÌîĞ´Êı¾İ
+		int success = 0, ignore = 0, fail = 0;// æœ¬æ¬¡å¡«å†™æ•°æ®
 		long qq = Long.parseLong(args[4]);
 		String pass = args[5];
-		String idCard;// Ñ§ÉúÉí·İÖ¤ºÅ
+		String idCard;// å­¦ç”Ÿèº«ä»½è¯å·
 		Date time = new Date();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		try {
@@ -42,19 +42,19 @@ public class Main {                         //»òÕßÉí·İÖ¤ÎÄ¼şµØÖ·£¬Ñ§Ğ£id£¬Äê¼Íid
 				InputStreamReader isr = new InputStreamReader(new FileInputStream(file), "utf-8");
 				BufferedReader br = new BufferedReader(isr);
 				String lineTxt;
-				while ((lineTxt = br.readLine()) != null) {// Ñ­»·Ã¿Ò»¸öÑ§ÉúµÄĞÅÏ¢£¬²¢×Ô¶¯ÌîĞ´ÌåÎÂ
+				while ((lineTxt = br.readLine()) != null) {// å¾ªç¯æ¯ä¸€ä¸ªå­¦ç”Ÿçš„ä¿¡æ¯ï¼Œå¹¶è‡ªåŠ¨å¡«å†™ä½“æ¸©
 					idCard = lineTxt;
-					String listResponse;// »ñÈ¡ÌåÎÂÁĞ±íµÄ·µ»ØÖµ
+					String listResponse;// è·å–ä½“æ¸©åˆ—è¡¨çš„è¿”å›å€¼
 					try {
 						listResponse = sendGet("http://api.yiqing.zyyj.com.cn/api/temp/temp_daily_list",
 								"school_id=541&grade_id=18&class_id=12619&id_card=" + idCard + "&measure_date="
 										+ format.format(time));
 						System.out.println(listResponse);
-						if (listResponse.length() < 87) {// ÅĞ¶ÏÊÇ·ñÌîĞ´ÁËÌåÎÂ
-							System.out.println(idCard + "ÌîĞ´³É¹¦£¡-----" + addTempDaily(idCard,args[1],args[2],args[3]));
+						if (listResponse.length() < 87) {// åˆ¤æ–­æ˜¯å¦å¡«å†™äº†ä½“æ¸©
+							System.out.println(idCard + "å¡«å†™æˆåŠŸï¼-----" + addTempDaily(idCard,args[1],args[2],args[3]));
 							success++;
 						} else {
-							System.out.println(idCard + "ÒÑÌîĞ´ÌåÎÂÎŞĞèÔÙ´ÎÌîĞ´£¡");
+							System.out.println(idCard + "å·²å¡«å†™ä½“æ¸©æ— éœ€å†æ¬¡å¡«å†™ï¼");
 							ignore++;
 						}
 					} catch (IOException e) {
@@ -64,23 +64,23 @@ public class Main {                         //»òÕßÉí·İÖ¤ÎÄ¼şµØÖ·£¬Ñ§Ğ£id£¬Äê¼Íid
 				}
 				br.close();
 			} else {
-				System.out.println("ÎÄ¼ş²»´æÔÚ!");
+				System.out.println("æ–‡ä»¶ä¸å­˜åœ¨!");
 			}
 		} catch (Exception e) {
-			System.out.println("ÎÄ¼ş¶ÁÈ¡´íÎó!");
+			System.out.println("æ–‡ä»¶è¯»å–é”™è¯¯!");
 		}
 		if(mirai){
-			//QQ»úÆ÷ÈË·¢ËÍÌîĞ´ĞÅÏ¢£¬By mirai
-			System.out.println("¿ªÊ¼·¢ËÍ±¾´ÎÌîĞ´ĞÅÏ¢");
+			//QQæœºå™¨äººå‘é€å¡«å†™ä¿¡æ¯ï¼ŒBy mirai
+			System.out.println("å¼€å§‹å‘é€æœ¬æ¬¡å¡«å†™ä¿¡æ¯");
 			Bot bot = BotFactory.INSTANCE.newBot(qq, pass, new BotConfiguration() {{
 				fileBasedDeviceInfo();
 			}});
 			bot.login();
 			System.out.println(bot.getNick());
-			bot.getFriend(Long.parseLong(args[6])).sendMessage("½ñÈÕÌåÎÂÒÑ¾­×Ô¶¯Ìî±¨.\n±¾´Î³É¹¦ÌîĞ´Êı£º" + success + "£¬ÎŞĞèÌîĞ´Êı£º"
-					+ ignore + "£¬ÌîĞ´Ê§°ÜÊı£º" + fail+"\n´ËÏûÏ¢Îª×Ô¶¯·¢ËÍ£¬ÇëÎğ»Ø¸´¡£");
+			bot.getFriend(Long.parseLong(args[6])).sendMessage("ä»Šæ—¥ä½“æ¸©å·²ç»è‡ªåŠ¨å¡«æŠ¥.\næœ¬æ¬¡æˆåŠŸå¡«å†™æ•°ï¼š" + success + "ï¼Œæ— éœ€å¡«å†™æ•°ï¼š"
+					+ ignore + "ï¼Œå¡«å†™å¤±è´¥æ•°ï¼š" + fail+"\næ­¤æ¶ˆæ¯ä¸ºè‡ªåŠ¨å‘é€ï¼Œè¯·å‹¿å›å¤ã€‚");
 			bot.close();
-			System.out.println("±¾´Î³É¹¦ÌîĞ´Êı£º" + success + "£¬ÎŞĞèÌîĞ´Êı£º" + ignore + "£¬ÌîĞ´Ê§°ÜÊı£º" + fail + "±¾´ÎÌîĞ´ĞÅÏ¢ÒÑ¾­·¢ËÍÖÁQQ!");
+			System.out.println("æœ¬æ¬¡æˆåŠŸå¡«å†™æ•°ï¼š" + success + "ï¼Œæ— éœ€å¡«å†™æ•°ï¼š" + ignore + "ï¼Œå¡«å†™å¤±è´¥æ•°ï¼š" + fail + "æœ¬æ¬¡å¡«å†™ä¿¡æ¯å·²ç»å‘é€è‡³QQ!");
 		}
 	}
 
@@ -88,14 +88,14 @@ public class Main {                         //»òÕßÉí·İÖ¤ÎÄ¼şµØÖ·£¬Ñ§Ğ£id£¬Äê¼Íid
 		Date time = new Date();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String response;
-		double temp = 36.5 + new Random().nextDouble() % 0.5;//Éú³ÉËæ»úÌåÎÂ36.5-37.1
+		double temp = 36.5 + new Random().nextDouble() % 0.5;//ç”Ÿæˆéšæœºä½“æ¸©36.5-37.1
 		response = sendPost("http://api.yiqing.zyyj.com.cn/api/temp/add_temp_daily",
 				"identity_type=2&class_id="+classId+"&grade_id="+gradeId+"&school_id="+schoolId+"&id_card=" + idCard
-						+ "&temp="+String.format("%.1f", temp)+"&measure_date=" + format.format(time) + "&parent_status=0");//´Ó36.5ÖÁ37.1Ëæ»úÑ¡ÔñÌåÎÂ
+						+ "&temp="+String.format("%.1f", temp)+"&measure_date=" + format.format(time) + "&parent_status=0");//ä»36.5è‡³37.1éšæœºé€‰æ‹©ä½“æ¸©
 		return response;
 	}
 
-	public static String sendGet(String url, String param) throws IOException { // GetÇëÇó
+	public static String sendGet(String url, String param) throws IOException { // Getè¯·æ±‚
 		String result = "";
 		String urlName = url + "?" + param;
 		URL realURL = new URL(urlName);
@@ -116,7 +116,7 @@ public class Main {                         //»òÕßÉí·İÖ¤ÎÄ¼şµØÖ·£¬Ñ§Ğ£id£¬Äê¼Íid
 		return result;
 	}
 
-	public static String sendPost(String url, String param) throws IOException { // PostÇëÇó
+	public static String sendPost(String url, String param) throws IOException { // Postè¯·æ±‚
 		String result = "";
 		URL realUrl = new URL(url);
 		URLConnection conn = realUrl.openConnection();
@@ -124,7 +124,7 @@ public class Main {                         //»òÕßÉí·İÖ¤ÎÄ¼şµØÖ·£¬Ñ§Ğ£id£¬Äê¼Íid
 		conn.setRequestProperty("connection", "Keep-Alive");
 		conn.setRequestProperty("user-agent",
 				"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36");
-		// postÉèÖÃÈçÏÂÁ½ĞĞ
+		// postè®¾ç½®å¦‚ä¸‹ä¸¤è¡Œ
 		conn.setDoOutput(true);
 		conn.setDoInput(true);
 		PrintWriter out = new PrintWriter(conn.getOutputStream());
