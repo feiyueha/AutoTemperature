@@ -19,11 +19,16 @@ import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.utils.BotConfiguration;
 
-public class Main {
-	public static void main(String args[]) {//身份证列表地址，学校id，年纪id，班级id,qq,qq密码
-		if(args.length != 6) {
-			System.out.println("请按照身份证列表，学校id，年纪id，班级id正确填写参数");
+public class Main {                         //或者身份证文件地址，学校id，年纪id，班级id（按照这种写法则默认不通过QQ提醒）
+	public static void main(String args[]) {//身份证列表文件地址，学校id，年纪id，班级id, QQ, QQ密码, 接收消息的人的QQ号（需要加好友）
+		boolean mirai = false;
+		if(args.length != 7 && args.length != 4) {
+
+			System.out.println("身份证列表文件地址，学校id，年纪id，班级id, [QQ], [QQ密码],[接收消息的人的QQ号（需要加好友)]");
 			System.exit(404);
+		}
+		if(args.length == 7){
+			mirai = true;
 		}
 		int success = 0, ignore = 0, fail = 0;// 本次填写数据
 		long qq = Long.parseLong(args[4]);
@@ -39,7 +44,7 @@ public class Main {
 				String lineTxt;
 				while ((lineTxt = br.readLine()) != null) {// 循环每一个学生的信息，并自动填写体温
 					idCard = lineTxt;
-					String listResponse = null;// 获取体温列表的返回值
+					String listResponse;// 获取体温列表的返回值
 					try {
 						listResponse = sendGet("http://api.yiqing.zyyj.com.cn/api/temp/temp_daily_list",
 								"school_id=541&grade_id=18&class_id=12619&id_card=" + idCard + "&measure_date="
@@ -64,17 +69,19 @@ public class Main {
 		} catch (Exception e) {
 			System.out.println("文件读取错误!");
 		}
-		//QQ机器人发送填写信息，By mirai
-		System.out.println("开始发送本次填写信息");
-		Bot bot = BotFactory.INSTANCE.newBot(qq, pass, new BotConfiguration() {{
-		    fileBasedDeviceInfo();
-		}});
-		bot.login();
-		System.out.println(bot.getNick());
-		bot.getFriend(123456789L).sendMessage("今日体温已经自动填报.\n本次成功填写数：" + success + "，无需填写数："
-			//此处填写接收消息的人的QQ									+ ignore + "，填写失败数：" + fail+"\n此消息为自动发送，请勿回复。");
-		bot.close();
-		System.out.println("本次成功填写数：" + success + "，无需填写数：" + ignore + "，填写失败数：" + fail + "本次填写信息已经发送至QQ!");
+		if(mirai){
+			//QQ机器人发送填写信息，By mirai
+			System.out.println("开始发送本次填写信息");
+			Bot bot = BotFactory.INSTANCE.newBot(qq, pass, new BotConfiguration() {{
+				fileBasedDeviceInfo();
+			}});
+			bot.login();
+			System.out.println(bot.getNick());
+			bot.getFriend(Long.parseLong(args[6])).sendMessage("今日体温已经自动填报.\n本次成功填写数：" + success + "，无需填写数："
+					+ ignore + "，填写失败数：" + fail+"\n此消息为自动发送，请勿回复。");
+			bot.close();
+			System.out.println("本次成功填写数：" + success + "，无需填写数：" + ignore + "，填写失败数：" + fail + "本次填写信息已经发送至QQ!");
+		}
 	}
 
 	public static String addTempDaily(String idCard,String schoolId , String gradeId , String classId) throws IOException {
