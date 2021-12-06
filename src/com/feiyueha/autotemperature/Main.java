@@ -47,7 +47,7 @@ public class Main {                         //或者身份证文件地址，学�
 					String listResponse;// 获取体温列表的返回值
 					try {
 						listResponse = sendGet("http://api.yiqing.zyyj.com.cn/api/temp/temp_daily_list",
-								"school_id=541&grade_id=18&class_id=12619&id_card=" + idCard + "&measure_date="
+								"school_id="+args[1]+"&grade_id="+args[2]+"&class_id="+args[3]+"&id_card=" + idCard + "&measure_date="
 										+ format.format(time));
 						System.out.println(listResponse);
 						if (listResponse.length() < 87) {// 判断是否填写了体温
@@ -104,10 +104,6 @@ public class Main {                         //或者身份证文件地址，学�
 		conn.setRequestProperty("connection", "Keep-Alive");
 		conn.setRequestProperty("user-agent","Programe");
 		conn.connect();
-		/*
-		 *Map<String, List<String>> map = conn.getHeaderFields();
-		 * for (String s : map.keySet()) { System.out.println(s + "-->" + map.get(s)); }
-		 */
 		BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
 		String line;
 		while ((line = in.readLine()) != null) {
@@ -124,7 +120,6 @@ public class Main {                         //或者身份证文件地址，学�
 		conn.setRequestProperty("connection", "Keep-Alive");
 		conn.setRequestProperty("user-agent",
 				"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36");
-		// post设置如下两行
 		conn.setDoOutput(true);
 		conn.setDoInput(true);
 		PrintWriter out = new PrintWriter(conn.getOutputStream());
