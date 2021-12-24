@@ -46,7 +46,7 @@ public class Main {                         //或者身份证文件地址，学�
 					idCard = lineTxt;
 					String listResponse;// 获取体温列表的返回值
 					try {
-						listResponse = sendGet("http://api.yiqing.zyyj.com.cn/api/temp/temp_daily_list",
+						listResponse = sendGet("http://api.yiqing.xxxx.com.cn/api/temp/temp_daily_list",
 								"school_id="+args[1]+"&grade_id="+args[2]+"&class_id="+args[3]+"&id_card=" + idCard + "&measure_date="
 										+ format.format(time));
 						System.out.println(listResponse);
@@ -89,7 +89,7 @@ public class Main {                         //或者身份证文件地址，学�
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String response;
 		double temp = 36.5 + new Random().nextDouble() % 0.5;//生成随机体温36.5-37.1
-		response = sendPost("http://api.yiqing.zyyj.com.cn/api/temp/add_temp_daily",
+		response = sendPost("http://api.yiqing.xxxx.com.cn/api/temp/add_temp_daily",
 				"identity_type=2&class_id="+classId+"&grade_id="+gradeId+"&school_id="+schoolId+"&id_card=" + idCard
 						+ "&temp="+String.format("%.1f", temp)+"&measure_date=" + format.format(time) + "&parent_status=0");//从36.5至37.1随机选择体温
 		return response;
